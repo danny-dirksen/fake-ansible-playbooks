@@ -8,7 +8,7 @@ This repository contains a collection of fake Ansible playbooks designed for tes
 - playbooks/database.yml — Database installation and configuration (mock)  
 - playbooks/ec2.yml — EC2 instance provisioning simulation  
 - playbooks/flask_app.yml — Deploy a sample Flask application  
-- playbooks/netops_debug.yml — Network troubleshooting playbook (simulated)  
+- playbooks/network_verification.yml — Network troubleshooting playbook (simulated)  
 - playbooks/simulate_user.yml — Create and manage fake users  
 - playbooks/ssh_hardening.yml — Simulate SSH hardening tasks  
 - playbooks/web_server.yml — Configure a simple web server (nginx/httpd) 

@@ -1,5 +1,5 @@
 ---
-- name: General Verification - VLAN, SVI and interface checks
+- name: Full Network Verification - VLAN, SVI and interface checks
   hosts: localhost
   gather_facts: false
 
