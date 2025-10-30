@@ -1,0 +1,21 @@
+---
+- name: Simulate web server setup
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Log_configure_nginx
+      debug:
+        msg: |
+          TASK [Configure Nginx]
+          changed: [{{ inventory_hostname }}] => {
+              "listen_port": "{{ web_port | default(80) }}",
+              "site_title": "{{ site_title | default('My Site') }}"
+          }
+
+    - name: Log_enable_ssl
+      debug:
+        msg: |
+          TASK [Enable SSL]
+          changed: [{{ inventory_hostname }}] => {"ssl": true, "cert_path": "/etc/ssl/certs/{{ inventory_hostname }}.crt"}
+      when: enable_ssl | default(false)

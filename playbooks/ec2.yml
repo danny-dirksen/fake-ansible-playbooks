@@ -1,0 +1,31 @@
+---
+- name: Simulate AWS EC2 creation
+  hosts: all
+  connection: local
+  gather_facts: false
+
+  vars_prompt:
+    - name: instance_name
+      prompt: "Enter EC2 instance name"
+      default: "demo-webserver"
+      private: no
+    - name: instance_type
+      prompt: "Enter EC2 instance type"
+      default: "t3.micro"
+      private: no
+    - name: enable_public_ip
+      prompt: "Should the instance have a public IP? (true/false)"
+      default: "true"
+      private: no
+
+  tasks:
+    - name: Log_create_ec2_instance
+      debug:
+        msg: |
+          TASK [Create EC2 instance]
+          changed: [localhost] => {
+              "instance_name": "{{ instance_name }}",
+              "instance_type": "{{ instance_type }}",
+              "region": "us-east-1",
+              "public_ip": "{{ '54.221.12.34' if enable_public_ip | bool else 'none' }}"
+          }

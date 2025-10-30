@@ -1,0 +1,15 @@
+---
+- name: Simulate SSH hardening
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Log_ssh_config_changes
+      debug:
+        msg: |
+          TASK [Apply SSH hardening]
+          changed: [{{ inventory_hostname }}] => {
+              "PermitRootLogin": "{{ permit_root_login }}",
+              "PasswordAuthentication": "{{ password_auth }}",
+              "Port": "{{ ssh_port }}"
+          }

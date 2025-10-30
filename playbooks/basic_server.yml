@@ -1,0 +1,31 @@
+---
+- name: Simulate basic server setup
+  hosts: all
+  gather_facts: false
+
+  vars:
+    common_packages:
+      - curl
+      - vim
+      - git
+      - htop
+    upgrade_mode: dist
+
+  tasks:
+    - name: Log_upgrade_packages
+      debug:
+        msg: |
+          TASK [Ensure latest updates are installed]
+          ok: [{{ inventory_hostname }}] => {
+              "upgrade_mode": "{{ upgrade_mode }}",
+              "msg": "System packages are already up to date"
+          }
+
+    - name: Log_install_packages
+      debug:
+        msg: |
+          TASK [Install common packages]
+          changed: [{{ inventory_hostname }}] => {
+              "packages_installed": {{ common_packages | to_nice_json }},
+              "msg": "Installed successfully"
+          }

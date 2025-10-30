@@ -1,0 +1,3 @@
+permit_root_login: "no"
+password_auth: "no"
+ssh_port: 2222

@@ -1,0 +1,23 @@
+---
+- name: Simulate Flask app deployment
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Log_cloning_repo
+      debug:
+        msg: |
+          TASK [Clone app repository]
+          changed: [{{ inventory_hostname }}] => {
+              "repo": "{{ repo_url }}",
+              "version": "{{ app_version }}"
+          }
+
+    - name: Log_environment_setup
+      debug:
+        msg: |
+          TASK [Set environment]
+          ok: [{{ inventory_hostname }}] => {
+              "environment": "{{ env }}",
+              "app_name": "{{ app_name }}"
+          }

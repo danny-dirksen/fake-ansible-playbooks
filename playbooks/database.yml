@@ -1,0 +1,15 @@
+---
+- name: Simulate database configuration
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Log_configure_database
+      debug:
+        msg: |
+          TASK [Configure database]
+          changed: [{{ inventory_hostname }}] => {
+              "db_name": "{{ db_name }}",
+              "user": "{{ db_user }}",
+              "password": "{{ db_password | regex_replace('.', '*') }}"
+          }
