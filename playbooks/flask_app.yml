@@ -1,11 +1,11 @@
 ---
 - name: Simulate Flask app deployment
-  hosts: all
+  hosts: localhost
   gather_facts: false
 
   tasks:
-    - name: Log_cloning_repo
-      debug:
+    - name: Cloning_repo
+      ansible.builtin.debug:
         msg: |
           TASK [Clone app repository]
           changed: [{{ inventory_hostname }}] => {
@@ -13,8 +13,8 @@
               "version": "{{ app_version }}"
           }
 
-    - name: Log_environment_setup
-      debug:
+    - name: Environment_setup
+      ansible.builtin.debug:
         msg: |
           TASK [Set environment]
           ok: [{{ inventory_hostname }}] => {

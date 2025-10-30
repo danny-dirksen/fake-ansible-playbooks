@@ -1,11 +1,11 @@
 ---
 - name: Simulate web server setup
-  hosts: all
+  hosts: localhost
   gather_facts: false
 
   tasks:
-    - name: Log_configure_nginx
-      debug:
+    - name: Configure_nginx
+      ansible.builtin.debug:
         msg: |
           TASK [Configure Nginx]
           changed: [{{ inventory_hostname }}] => {
@@ -13,8 +13,8 @@
               "site_title": "{{ site_title | default('My Site') }}"
           }
 
-    - name: Log_enable_ssl
-      debug:
+    - name: Enable_ssl
+      ansible.builtin.debug:
         msg: |
           TASK [Enable SSL]
           changed: [{{ inventory_hostname }}] => {"ssl": true, "cert_path": "/etc/ssl/certs/{{ inventory_hostname }}.crt"}

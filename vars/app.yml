@@ -2,3 +2,36 @@ app_name: quote_service
 app_version: "2.4.1"
 repo_url: "https://github.com/example/quote-service.git"
 env: production
+
+# generic/common
+upgrade_mode: "safe"
+common_packages:
+  - git
+  - python3
+  - gcc
+  - make
+
+# database
+db_name: "quote_db"
+db_user: "quote_user"
+
+# ec2 / instances
+instance_name: "quote-instance"
+instance_type: "t3.small"
+enable_public_ip: false
+
+# application / users
+username: "appuser"
+user_group: "appgroup"
+ssh_key_path: "/home/appuser/.ssh/id_rsa.pub"
+
+# ssh hardening
+permit_root_login: "no"
+password_auth: "no"
+ssh_port: 2222
+
+# web server
+web_port: 80
+site_title: "Quote Service"
+ssl: true
+cert_path: "/etc/ssl/certs/{{ inventory_hostname }}.crt"

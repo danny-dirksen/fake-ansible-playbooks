@@ -1,0 +1,103 @@
+---
+- name: General Verification - VLAN, SVI and interface checks
+  hosts: localhost
+  gather_facts: false
+
+  # Variables below are examples that map to AWX/Tower field types.
+  # Each var has a comment with a suggested AWX prompt for human-friendly input.
+  vars:
+    # AWX type: text
+    # Prompt: "Short name/ID for this verification run (single-line text)"
+    run_id: "vlan-verification-001"
+
+    # AWX type: textarea
+    # Prompt: "Detailed notes or instructions for the operator (multi-line)"
+    notes: |
+      Verify VLAN presence, name, SVI IP and associated access/trunk interfaces.
+      Use this debug playbook to validate variable rendering in AWX before running real jobs.
+
+    # AWX type: text
+    # Prompt: "VLAN name (short text, e.g. 'Servers')"
+    vlan_name: "Servers"
+
+    # AWX type: integer (validation in AWX: min_value=1, max_value=4094)
+    # Prompt: "VLAN ID to verify (numeric, 1-4094)"
+    vlan_id: 100
+
+    # AWX type: float (validation in AWX: min_value=0.01, max_value=1000.0)
+    # Prompt: "Expected interface bandwidth in Gbps (decimal allowed, e.g. 1.0, 10.0)"
+    expected_bandwidth_gbps: 1.0
+
+    # AWX type: multiplechoice (single choice from a list)
+    # Prompt: "VLAN operational state"
+    # Choices in AWX: active | suspended | dormant
+    vlan_state: "active"
+
+    # AWX type: multiselect (choose multiple interface names)
+    # Prompt: "Select interfaces to check (multi-select)"
+    interfaces:
+      - "GigabitEthernet1/0/1"
+      - "GigabitEthernet1/0/2"
+
+    # AWX type: boolean
+    # Prompt: "Include SVI verification? (true/false)"
+    include_svi: true
+
+    # AWX type: unknown / JSON fallback
+    # Prompt: "Advanced JSON for expected SVI or device state (free-form JSON)"
+    advanced:
+      svi:
+        ip: "192.0.2.100"
+        mask: "255.255.255.0"
+        description: "Lab SVI for VLAN 100"
+      metadata:
+        environment: "lab"
+        owner: "network-team"
+
+  tasks:
+    - name: Show NetOps verification variables summary
+      ansible.builtin.debug:
+        msg: |
+          NetOps debug summary for '{{ run_id }}'
+          Description: |
+            {{ notes.splitlines() | join('\n            ') }}
+          VLAN: id={{ vlan_id }}, name='{{ vlan_name }}' (expected state: {{ vlan_state }})
+          Expected bandwidth (Gbps): {{ expected_bandwidth_gbps }}
+          Interfaces to check: {{ interfaces | to_nice_json }}
+          Include SVI check: {{ include_svi }}
+          Advanced JSON (parsed): {{ advanced | to_nice_json }}
+
+    - name: Simulate VLAN existence check (debug-only)
+      ansible.builtin.debug:
+        msg: |
+          TASK [check_vlan] => {
+            "vlan_id": {{ vlan_id }},
+            "vlan_name": "{{ vlan_name }}",
+            "status": "{{ 'present' if vlan_state == 'active' else 'present (not active)' }}",
+            "svi_expected": {{ advanced.svi | default({}) | to_nice_json }}
+          }
+
+    - name: Simulate interface binding details (debug-only)
+      ansible.builtin.debug:
+        msg: |
+          TASK [interface_binding] => Interfaces: {{ interfaces | join(', ') }}
+          Details:
+          {% for iface in interfaces %}
+            - {{ iface }}: {
+                "admin_state": "up",
+                "oper_state": "up",
+                "vlan": {{ vlan_id }},
+                "bandwidth_gbps": {{ expected_bandwidth_gbps }}
+              }
+          {% endfor %}
+
+    - name: SVI verification (debug-only) when requested
+      ansible.builtin.debug:
+        msg: |
+          TASK [svi_verify] => {
+            "check_performed": {{ include_svi }},
+            "svi_ip": "{{ advanced.svi.ip if advanced is defined and advanced.svi is defined else 'not-provided' }}",
+            "svi_mask": "{{ advanced.svi.mask if advanced is defined and advanced.svi is defined else 'not-provided' }}",
+            "notes": {{ advanced.metadata | to_nice_json }}
+          }
+      when: include_svi

@@ -1,22 +1,22 @@
 ---
 - name: Simulate user setup with prompts
-  hosts: all
+  hosts: localhost
   gather_facts: false
 
   vars_prompt:
     - name: "username"
       prompt: "Enter the username to create"
-      private: no
+      private: false
     - name: "user_group"
       prompt: "Enter the primary group"
       default: "sudo"
     - name: "ssh_key_path"
       prompt: "Enter path to public key file"
-      private: no
+      private: false
 
   tasks:
-    - name: Log_create_user
-      debug:
+    - name: Create_user
+      ansible.builtin.debug:
         msg: |
           TASK [Ensure user exists]
           changed: [{{ inventory_hostname }}] => {
@@ -24,8 +24,8 @@
               "group": "{{ user_group }}"
           }
 
-    - name: Log_add_ssh_key
-      debug:
+    - name: Add_ssh_key
+      ansible.builtin.debug:
         msg: |
           TASK [Add SSH key]
           ok: [{{ inventory_hostname }}] => {

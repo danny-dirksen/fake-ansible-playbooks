@@ -1,6 +1,6 @@
 ---
 - name: Simulate basic server setup
-  hosts: all
+  hosts: localhost
   gather_facts: false
 
   vars:
@@ -12,8 +12,8 @@
     upgrade_mode: dist
 
   tasks:
-    - name: Log_upgrade_packages
-      debug:
+    - name: Upgrade_packages
+      ansible.builtin.debug:
         msg: |
           TASK [Ensure latest updates are installed]
           ok: [{{ inventory_hostname }}] => {
@@ -21,8 +21,8 @@
               "msg": "System packages are already up to date"
           }
 
-    - name: Log_install_packages
-      debug:
+    - name: Install_packages
+      ansible.builtin.debug:
         msg: |
           TASK [Install common packages]
           changed: [{{ inventory_hostname }}] => {

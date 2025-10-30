@@ -1,6 +1,6 @@
 ---
 - name: Simulate AWS EC2 creation
-  hosts: all
+  hosts: localhost
   connection: local
   gather_facts: false
 
@@ -8,19 +8,19 @@
     - name: instance_name
       prompt: "Enter EC2 instance name"
       default: "demo-webserver"
-      private: no
+      private: false
     - name: instance_type
       prompt: "Enter EC2 instance type"
       default: "t3.micro"
-      private: no
+      private: false
     - name: enable_public_ip
       prompt: "Should the instance have a public IP? (true/false)"
       default: "true"
-      private: no
+      private: false
 
   tasks:
-    - name: Log_create_ec2_instance
-      debug:
+    - name: Create_ec2_instance
+      ansible.builtin.debug:
         msg: |
           TASK [Create EC2 instance]
           changed: [localhost] => {

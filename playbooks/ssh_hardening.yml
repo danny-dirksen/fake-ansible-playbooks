@@ -1,11 +1,11 @@
 ---
 - name: Simulate SSH hardening
-  hosts: all
+  hosts: localhost
   gather_facts: false
 
   tasks:
-    - name: Log_ssh_config_changes
-      debug:
+    - name: Ssh_config_changes
+      ansible.builtin.debug:
         msg: |
           TASK [Apply SSH hardening]
           changed: [{{ inventory_hostname }}] => {
