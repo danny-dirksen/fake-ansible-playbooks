@@ -67,7 +67,7 @@
           Include SVI check: {{ include_svi }}
           Advanced JSON (parsed): {{ advanced | to_nice_json }}
 
-    - name: Simulate VLAN existence check (debug-only)
+    - name: VLAN existence check (debug-only)
       ansible.builtin.debug:
         msg: |
           TASK [check_vlan] => {
@@ -77,7 +77,7 @@
             "svi_expected": {{ advanced.svi | default({}) | to_nice_json }}
           }
 
-    - name: Simulate interface binding details (debug-only)
+    - name: Interface binding details (debug-only)
       ansible.builtin.debug:
         msg: |
           TASK [interface_binding] => Interfaces: {{ interfaces | join(', ') }}

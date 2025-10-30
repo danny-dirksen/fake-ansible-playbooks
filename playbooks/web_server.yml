@@ -1,5 +1,5 @@
 ---
-- name: Simulate web server setup
+- name: Web server setup
   hosts: localhost
   gather_facts: false
 

@@ -1,5 +1,5 @@
 ---
-- name: Simulate Flask app deployment
+- name: Flask app deployment
   hosts: localhost
   gather_facts: false
 

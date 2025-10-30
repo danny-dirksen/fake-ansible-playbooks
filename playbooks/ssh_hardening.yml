@@ -1,5 +1,5 @@
 ---
-- name: Simulate SSH hardening
+- name: SSH hardening
   hosts: localhost
   gather_facts: false
 

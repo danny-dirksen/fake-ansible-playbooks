@@ -1,5 +1,5 @@
 ---
-- name: Simulate database configuration
+- name: Database configuration
   hosts: localhost
   gather_facts: false
 

@@ -1,5 +1,5 @@
 ---
-- name: Simulate AWS EC2 creation
+- name: AWS EC2 creation
   hosts: localhost
   connection: local
   gather_facts: false

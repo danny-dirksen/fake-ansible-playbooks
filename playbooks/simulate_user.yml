@@ -1,5 +1,5 @@
 ---
-- name: Simulate user setup with prompts
+- name: User setup with prompts
   hosts: localhost
   gather_facts: false
 

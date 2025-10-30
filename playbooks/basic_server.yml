@@ -1,5 +1,5 @@
 ---
-- name: Simulate basic server setup
+- name: Basic server setup
   hosts: localhost
   gather_facts: false
 
